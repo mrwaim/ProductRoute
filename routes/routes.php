@@ -5,7 +5,7 @@
  * | Route group for ADMIN only.
  * |--------------------------------------------------------------------------
  */
-Route::group(['middleware' => ['auth.admin']], function () {
+Route::group(['middleware' => ['role:admin']], function () {
     /**
      * |--------------------------------------------------------------------------
      * | Create staff
