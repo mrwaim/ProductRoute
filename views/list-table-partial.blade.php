@@ -5,6 +5,7 @@
             <th>ID</th>
             <th>Name</th>
             <th>Description</th>
+            <th>Group</th>
             <th>Price</th>
             @if($auth->admin)
                 <th>Delete</th>
@@ -17,7 +18,8 @@
                 <td>{{ $item->id }}</td>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->description }}</td>
-                <td>{{ $item->price }}</td>
+                <td>{{ $item->productPricing->groups()->first() ? $item->productPricing->groups()->first()->name : 'Any' }}</td>
+                <td>{{ $item->productPricing->price }}</td>
                 @if($auth->admin)
                     <td>
                         <a href="/products/delete/{{ $item->id }}" class="panel-action panel-action-dismiss"></a>

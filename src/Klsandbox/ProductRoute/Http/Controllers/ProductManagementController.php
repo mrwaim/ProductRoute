@@ -38,7 +38,7 @@ class ProductManagementController extends Controller
 
     public function getCreateProduct()
     {
-        return view('product-route::create-product');
+        return view('product-route::create-product')->withGroups(\App\Models\Group::forSite()->get());
     }
 
     public function postCreateProduct()

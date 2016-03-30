@@ -43,6 +43,18 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Target Group</label>
+
+                                <div class="col-md-6">
+                                    <select name='group_id' id="group-list">
+                                        <option value='0'>Any</option>
+                                        @foreach ($groups as $item)
+                                            <option value='{{$item->id}}'>{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
