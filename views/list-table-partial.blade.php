@@ -15,7 +15,7 @@
         <tbody>
         @foreach($products as $item)
             <tr>
-                <td>{{ $item->id }}</td>
+                <td>@products-link($item)</td>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->description }}</td>
                 <td>{{ $item->productPricing->groups()->first() ? $item->productPricing->groups()->first()->name : 'Any' }}</td>

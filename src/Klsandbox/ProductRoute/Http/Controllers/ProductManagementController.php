@@ -5,6 +5,7 @@ namespace Klsandbox\ProductRoute\Http\Controllers;
 use Klsandbox\OrderModel\Models\Product;
 use Auth;
 use Input;
+use Klsandbox\OrderModel\Models\ProductPricing;
 use Klsandbox\RoleModel\Role;
 use Redirect;
 use Session;
@@ -27,7 +28,23 @@ class ProductManagementController extends Controller
             'name' => 'required',
             'description' => 'required',
             'price' => 'required|numeric',
+            'image' => 'required|image'
         ]);
+    }
+
+    public function updateValidator(array $data)
+    {
+        return \Validator::make($data, [
+            'name' => 'required',
+            'description' => 'required',
+            'price' => 'required|numeric',
+            'image' => 'image'
+        ]);
+    }
+
+    public function getEdit(ProductPricing $productPricing)
+    {
+        return view('product-route::edit-product')->withGroups(\App\Models\Group::forSite()->get())->withProductPricing($productPricing);
     }
 
     public function getList()
@@ -46,26 +63,84 @@ class ProductManagementController extends Controller
         $messages = $this->validator(Input::all());
 
         if ($messages->messages()->count() && Auth::user()->role_id === Role::Admin()->id) {
-            return view('product-route::.create-product')
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withGroups(\App\Models\Group::forSite()->get())
                 ->withErrors($messages);
         }
 
-        $this->model->createNew(Input::all());
+        $inputs = Input::all();
+
+        $file = Input::file('image');
+        $destination = public_path() . '/uploads/';
+        $extension = $file->getClientOriginalExtension();
+        $fileName = bin2hex(random_bytes(32)) . '.' . $extension;
+        $file->move($destination, $fileName);
+
+        $inputs['image'] = '/uploads/' . $fileName;
+        $inputs = array_except($inputs, ['_token']);
+
+        $this->model->createNew($inputs);
 
         Session::flash('success_message', 'Product has been created.');
 
         return Redirect::to('/products/list');
     }
 
-    public function getDelete($id)
+    public function postUpdate(ProductPricing $productPricing)
     {
-        $validate = \Validator::make(['id' => $id], [
-            'id' => 'required|numeric',
-        ]);
+        $messages = $this->updateValidator(Input::all());
 
-        if (!$validate->messages()->count() && Auth::user()->role_id === Role::Admin()->id) {
-            $this->model->setUnavailable($id);
+        if ($messages->messages()->count() && Auth::user()->role_id === Role::Admin()->id) {
+            return view('product-route::edit-product')
+                ->withProductPricing($productPricing)
+                ->withGroups(\App\Models\Group::forSite()->get())
+                ->withErrors($messages);
         }
+
+        $inputs = Input::all();
+
+        if(Input::hasFile('image'))
+        {
+            $file = Input::file('image');
+            $destination = public_path('uploads/');
+            $extension = $file->getClientOriginalExtension();
+            $fileName = bin2hex(random_bytes(32)) . '.' . $extension;
+            $file->move($destination, $fileName);
+
+            $inputs['image'] = 'uploads/' . $fileName;
+
+            if(\File::exists(public_path($productPricing->product->image)))
+            {
+                \File::delete(public_path($productPricing->product->image));
+            }
+        }
+
+        $productPricing->price = $inputs['price'];
+        $productPricing->save();
+
+        if ($inputs['group_id'])
+        {
+            $productPricing->groups()->sync([$inputs['group_id']]);
+        }
+        else
+        {
+            $productPricing->groups()->sync([]);
+        }
+
+        $inputs = array_except($inputs, ['group_id', 'price', '_token']);
+
+        $productPricing->product->update($inputs);
+
+        Session::flash('success_message', 'Product has been updated.');
+
+        return Redirect::to('/products/list');
+    }
+
+    public function getDelete(Product $product)
+    {
+        $this->model->setUnavailable($product->id);
 
         Session::flash('success_message', 'Product has been deleted.');
 

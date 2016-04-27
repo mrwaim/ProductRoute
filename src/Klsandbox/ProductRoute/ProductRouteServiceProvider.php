@@ -1,6 +1,7 @@
 <?php namespace Klsandbox\ProductRoute;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Routing\Router;
 
 class ProductRouteServiceProvider extends ServiceProvider
 {
@@ -12,7 +13,7 @@ class ProductRouteServiceProvider extends ServiceProvider
      */
     protected $defer = false;
 
-    public function boot()
+    public function boot(Router $router)
     {
         if (!$this->app->routesAreCached()) {
             require __DIR__ . '/../../../routes/routes.php';
@@ -23,6 +24,18 @@ class ProductRouteServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../../../views/' => base_path('resources/views/vendor/product-route')
         ], 'views');
+
+        \Blade::extend(function ($view, $compiler) {
+            $pattern = "/(?<!\w)(\s*)@(products)-link\(\s*(.*?)\)/";
+            return preg_replace($pattern, '$1'
+                . '<?php if($auth->admin) {?>' . PHP_EOL
+                . '<a href="/$2/edit/<?php echo $3->productPricing->id ?>">' . PHP_EOL
+                . '<?php echo $3->name ?>' . PHP_EOL
+                . '</a>' . PHP_EOL
+                . '<?php } else { ?>' . PHP_EOL
+                . '<?php echo $3->name ?>' . PHP_EOL
+                . '<?php }?>', $view);
+        });
     }
 
     /**
