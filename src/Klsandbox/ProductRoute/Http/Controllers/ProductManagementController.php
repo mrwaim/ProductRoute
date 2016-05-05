@@ -2,11 +2,13 @@
 
 namespace Klsandbox\ProductRoute\Http\Controllers;
 
+use App\Models\BonusCategory;
 use Klsandbox\OrderModel\Models\Product;
 use Auth;
 use Input;
 use Klsandbox\OrderModel\Models\ProductPricing;
 use Klsandbox\RoleModel\Role;
+use Klsandbox\SiteModel\Site;
 use Redirect;
 use Session;
 
@@ -15,10 +17,12 @@ use App\Http\Controllers\Controller;
 class ProductManagementController extends Controller
 {
     protected $model;
+    protected $bonusCategoryModel;
 
-    public function __construct()
+    public function __construct(BonusCategory $bonusCategory)
     {
         $this->model = new Product();
+        $this->bonusCategoryModel = $bonusCategory;
         $this->middleware('auth');
     }
 
@@ -44,18 +48,27 @@ class ProductManagementController extends Controller
 
     public function getEdit(ProductPricing $productPricing)
     {
-        return view('product-route::edit-product')->withGroups(\App\Models\Group::forSite()->get())->withProductPricing($productPricing);
+        $bonusCategories = BonusCategory::forSite()->get();
+
+        return view('product-route::edit-product')
+            ->with('bonusCategories', $bonusCategories)
+            ->withGroups(\App\Models\Group::forSite()->get())
+            ->withProductPricing($productPricing);
     }
 
     public function getList()
     {
+
         return view('product-route::list')
             ->with('products', Product::getList());
     }
 
     public function getCreateProduct()
     {
-        return view('product-route::create-product')->withGroups(\App\Models\Group::forSite()->get());
+        $bonusCategories = BonusCategory::forSite()->get();
+        return view('product-route::create-product')
+            ->with('bonusCategories', $bonusCategories)
+            ->withGroups(\App\Models\Group::forSite()->get());
     }
 
     public function postCreateProduct()
@@ -145,5 +158,72 @@ class ProductManagementController extends Controller
         Session::flash('success_message', 'Product has been deleted.');
 
         return Redirect::to('/products/list');
+    }
+
+    /**
+     * Display page list bonus categories
+     * @return string
+     */
+    public function getListBonusCategories()
+    {
+        return view('product-route::list-bonus-categories')
+            ->with('bonusCategories', BonusCategory::forSite()->get());
+    }
+
+    /**
+     * Display page list bonus categories
+     * @return string
+     */
+    public function getCreateBonusCategory()
+    {
+        return view('product-route::create-bonus-category');
+    }
+
+    /**
+     * Save new bonus category
+     */
+    public function postCreateBonusCategory()
+    {
+        $input = Input::all();
+
+        $messages = \Validator::make($input, [
+            'name' => 'required',
+            'description' => 'required'
+        ]);
+
+        if ($messages->messages()->count()) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors($messages);
+        }
+
+        $this->bonusCategoryModel->create([
+            'name' => str_slug($input['name']),
+            'friendly_name' => $input['name'],
+            'description' => $input['description'],
+            'site_id' => Site::id(),
+        ]);
+
+        Session::flash('success_message', 'Bonus category has been created.');
+
+        return Redirect::to('/products/list-bonus-categories');
+    }
+
+    public function getDeleteBonusCategory($bonusCategory)
+    {
+        $bonusCategory = $this->bonusCategoryModel::forSite()
+            ->find($bonusCategory);
+
+
+        if(! $bonusCategory){
+            App::abort(500, "Category not found");
+        }
+
+        $bonusCategory->delete();
+
+        Session::flash('success_message', 'Bonus Category has been deleted.');
+
+        return Redirect::to('/products/list-bonus-categories');
     }
 }

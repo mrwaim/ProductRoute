@@ -64,6 +64,19 @@
                             </div> <!-- end div.form-group -->
 
                             <div class="form-group">
+                                <label class="col-md-4 control-label">Bonus Category</label>
+
+                                <div class="col-md-6">
+                                    <select name='bonus_categories_id'>
+                                        @foreach ($bonusCategories as $item)
+                                            <option value='{{$item->id}}'>{{ $item->friendly_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">
                                         Create

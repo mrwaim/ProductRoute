@@ -2,29 +2,24 @@
     <table class="{{isset($table_class) ? $table_class : 'table table-bordered table-striped table-condensed mb-none'}}">
         <thead>
         <tr>
-            <th>ID</th>
+            <th>No</th>
             <th>Name</th>
             <th>Description</th>
-            <th>Group</th>
-            <th>Price</th>
-            <th>Bonus Category</th>
             @if($auth->admin)
                 <th>Delete</th>
             @endif
         </tr>
         </thead>
         <tbody>
-        @foreach($products as $item)
+        <?php $no = 1?>
+        @foreach($bonusCategories as $item)
             <tr>
-                <td>@products-link($item)</td>
-                <td>{{ $item->name }}</td>
+                <td>{{ $no++ }}</td>
+                <td>{{ $item->friendly_name }}</td>
                 <td>{{ $item->description }}</td>
-                <td>{{ $item->productPricing->groups()->first() ? $item->productPricing->groups()->first()->name : 'Any' }}</td>
-                <td>{{ $item->productPricing->price }}</td>
-                <td>{{ $item->bonusCategory->friendly_name }}</td>
                 @if($auth->admin)
                     <td>
-                        <a href="/products/delete/{{ $item->id }}" class="panel-action panel-action-dismiss"></a>
+                        <a href="/products/delete-bonus-category/{{ $item->id }}" class="panel-action panel-action-dismiss"></a>
                     </td>
                 @endif
             </tr>
