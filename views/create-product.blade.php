@@ -7,7 +7,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-9 col-md-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-heading">Create Product</div>
                     <div class="panel-body">
@@ -33,28 +33,7 @@
                                            value="{{ old('description') }}">
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label">Product Price</label>
-
-                                <div class="col-md-6">
-                                    <input type="number" class="form-control" name="price"
-                                           value="{{ old('price') }}">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label">Target Group</label>
-
-                                <div class="col-md-6">
-                                    <select name='group_id' id="group-list">
-                                        <option value='0'>Any</option>
-                                        @foreach ($groups as $item)
-                                            <option value='{{$item->id}}'>{{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
+                            
 
                             <div class="form-group">
                                 <label for="image" class="control-label col-md-4">Product Image</label>
@@ -68,13 +47,43 @@
 
                                 <div class="col-md-6">
                                     <select name='bonus_categories_id'>
-                                        @foreach ($bonusCategories as $item)
+                                    <option value=''>Any</option>
+                                    @foreach ($bonusCategories as $item)
                                             <option value='{{$item->id}}'>{{ $item->friendly_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Target Group</label>
+                                <div class="col-md-6 column">
+                                    <table class="table table-bordered table-hover" id="tab_logic">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center">Group</th>
+                                            <th class="text-center">Product Price</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Any</td>
+                                            <input type="hidden" name="groups[0][group_id]" value="0"/>
+                                            <td><input type="number" name='groups[0][price]' placeholder='Price' class="form-control" required/></td>
+                                        </tr>
+                                        <?php $index = 0 ?>
+                                        @foreach ($groups as $item)
+                                            <?php $index++ ?>
+                                            <tr>
+                                                <td>{{ $item->name }}</td>
+                                                <input type="hidden" name="{{ "groups[{$index}][group_id]" }}" value="{{$item->id}}"/>
+                                                <td><input type="number" name={{ "groups[{$index}][price]" }} placeholder='Price' class="form-control"/></td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">

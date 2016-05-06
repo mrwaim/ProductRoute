@@ -28,7 +28,6 @@ class ProductManagementController extends Controller
         return \Validator::make($data, [
             'name' => 'required',
             'description' => 'required',
-            'price' => 'required|numeric',
             'image' => 'required|image'
         ]);
     }

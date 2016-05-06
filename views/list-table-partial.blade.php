@@ -21,7 +21,7 @@
                 <td>{{ $item->description }}</td>
                 <td>{{ $item->productPricing->groups()->first() ? $item->productPricing->groups()->first()->name : 'Any' }}</td>
                 <td>{{ $item->productPricing->price }}</td>
-                <td>{{ $item->bonusCategory->friendly_name }}</td>
+                <td>{{ $item->bonusCategory ? $item->bonusCategory->friendly_name : 'Any' }}</td>
                 @if($auth->admin)
                     <td>
                         <a href="/products/delete/{{ $item->id }}" class="panel-action panel-action-dismiss"></a>
