@@ -8,7 +8,6 @@ use Auth;
 use Input;
 use Klsandbox\OrderModel\Models\ProductPricing;
 use Klsandbox\RoleModel\Role;
-use Klsandbox\SiteModel\Site;
 use Redirect;
 use Session;
 
@@ -17,12 +16,10 @@ use App\Http\Controllers\Controller;
 class ProductManagementController extends Controller
 {
     protected $model;
-    protected $bonusCategoryModel;
 
-    public function __construct(BonusCategory $bonusCategory)
+    public function __construct()
     {
         $this->model = new Product();
-        $this->bonusCategoryModel = $bonusCategory;
         $this->middleware('auth');
     }
 
