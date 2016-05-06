@@ -33,7 +33,17 @@
                                            value="{{ old('description') }}">
                                 </div>
                             </div>
-                            
+
+                            @if(! $config->group_enabled)
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Product Price</label>
+
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="price"
+                                           value="{{ old('price') }}">
+                                </div>
+                            </div>
+                            @endif
 
                             <div class="form-group">
                                 <label for="image" class="control-label col-md-4">Product Image</label>
@@ -55,6 +65,7 @@
                                 </div>
                             </div>
 
+                            @if($config->group_enabled)
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Target Group</label>
                                 <div class="col-md-6 column">
@@ -84,6 +95,7 @@
                                     </table>
                                 </div>
                             </div>
+                            @endif
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">

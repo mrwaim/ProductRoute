@@ -14,14 +14,14 @@
                         @include('elements.error-message-partial')
 
                         <form enctype="multipart/form-data" class="form-horizontal" role="form" method="POST"
-                              action="{{ url('/products/update/' . $product_pricing->id) }}">
+                              action="{{ url('/products/update/' . $product->id) }}">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Product Name</label>
 
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="name" value="{{ $product_pricing->product->name }}">
+                                    <input type="text" class="form-control" name="name" value="{{ $product->name }}">
                                 </div>
                             </div>
 
