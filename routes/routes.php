@@ -20,9 +20,9 @@ Route::group(['middleware' => ['role:admin']], function () {
         Route::get('create-product', '\Klsandbox\ProductRoute\Http\Controllers\ProductManagementController@getCreateProduct');
         Route::post('create-product', '\Klsandbox\ProductRoute\Http\Controllers\ProductManagementController@postCreateProduct');
         Route::get('delete/{product}', '\Klsandbox\ProductRoute\Http\Controllers\ProductManagementController@getDelete');
-        Route::get('edit/{product_pricing}', '\Klsandbox\ProductRoute\Http\Controllers\ProductManagementController@getEdit');
+        Route::get('edit/{product}', '\Klsandbox\ProductRoute\Http\Controllers\ProductManagementController@getEdit');
         Route::get('list', '\Klsandbox\ProductRoute\Http\Controllers\ProductManagementController@getList');
-        Route::post('update/{product_pricing}', '\Klsandbox\ProductRoute\Http\Controllers\ProductManagementController@postUpdate');
+        Route::post('update/{product}', '\Klsandbox\ProductRoute\Http\Controllers\ProductManagementController@postUpdate');
 
     });
 });
