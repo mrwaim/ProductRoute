@@ -55,6 +55,7 @@ class ProductManagementController extends Controller
             ->with('products', Product::getList());
     }
 
+
     public function getCreateProduct()
     {
         $bonusCategories = BonusCategory::forSite()->get();
@@ -64,6 +65,11 @@ class ProductManagementController extends Controller
     }
 
 
+    /**
+     * Save new product
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function postCreateProduct()
     {
 
@@ -72,7 +78,7 @@ class ProductManagementController extends Controller
         if(! config('group.enabled')){
             $messages = $this->createProductGroupDisabledValidator($inputs);
         }else{
-
+            $messages = $this->createProductGroupEnabledValidator($inputs);
         }
 
         if ($messages->messages()->count() && Auth::user()->role_id === Role::Admin()->id) {
@@ -95,7 +101,7 @@ class ProductManagementController extends Controller
         if(! config('group.enabled')) {
             $this->model->createProductGroupDisabled($inputs);
         }else{
-            $this->model->createNew($inputs);
+            $this->model->createProductGroupEnabled($inputs);
         }
 
         Session::flash('success_message', 'Product has been created.');
@@ -149,6 +155,12 @@ class ProductManagementController extends Controller
     }
 
 
+    /**
+     * Validator for create new product when group is disabled
+     *
+     * @param array $input
+     * @return mixed
+     */
     public function createProductGroupDisabledValidator(array $input)
     {
         return Validator::make($input, [
@@ -157,6 +169,20 @@ class ProductManagementController extends Controller
             'price'         => 'required|numeric',
             'image'         => 'required|image'
         ]);
+    }
+
+    /**
+     * @param array $input
+     */
+    public function createProductGroupEnabledValidator(array $input)
+    {
+        $rules = [
+            'name'          => 'required',
+            'description'   => 'required',
+            'image'         => 'required|image'
+        ];
+
+        return Validator::make($input, $rules);
     }
 
 }

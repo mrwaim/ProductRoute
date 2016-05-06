@@ -77,11 +77,6 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td>Any</td>
-                                            <input type="hidden" name="groups[0][group_id]" value="0"/>
-                                            <td><input type="number" name='groups[0][price]' placeholder='Price' class="form-control" required/></td>
-                                        </tr>
                                         <?php $index = 0 ?>
                                         @foreach ($groups as $item)
                                             <?php $index++ ?>
