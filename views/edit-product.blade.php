@@ -78,18 +78,20 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td>Any</td>
-                                            <input type="hidden" name="groups[0][group_id]" value="0"/>
-                                            <td><input type="number" name='groups[0][price]' placeholder='Price' class="form-control" required/></td>
-                                        </tr>
                                         <?php $index = 0 ?>
                                         @foreach ($groups as $item)
                                             <?php $index++ ?>
                                             <tr>
+                                                <input type="hidden" name="{{ "groups[{$index}][group_id]" }}"
+                                                       value="{{$item->id}}"/>
+                                                <input type="hidden" name="{{ "groups[{$index}][product_pricing_id]" }}"
+                                                       value="{{$item->productPricing[0]->id}}"/>
                                                 <td>{{ $item->name }}</td>
-                                                <input type="hidden" name="{{ "groups[{$index}][group_id]" }}" value="{{$item->id}}"/>
-                                                <td><input type="number" name={{ "groups[{$index}][price]" }} placeholder='Price' class="form-control"/></td>
+                                                <td>
+                                                <input type="number" name="{{ "groups[{$index}][price]" }}"
+                                                           value="{{ $item->productPricing[0]->price }}"
+                                                           placeholder='Price' class="form-control"/>
+                                                </td>
                                             </tr>
                                         @endforeach
                                         </tbody>

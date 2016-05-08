@@ -10,6 +10,7 @@ use Auth;
 use Input;
 use Klsandbox\OrderModel\Models\ProductPricing;
 use Klsandbox\RoleModel\Role;
+use Klsandbox\SiteModel\Site;
 use Redirect;
 use Session;
 
@@ -27,15 +28,23 @@ class ProductManagementController extends Controller
 
     public function getEdit(Product $product)
     {
-        $product->load([
-            'productPricing.groups'
-        ]);
+
+        if(! config('group.enabled')) {
+            $groups = Group::forSite()->get();
+        }else{
+            $groups = Group::forSite()
+                ->with(['productPricing' => function($query) use ($product){
+                    $query->where('site_id', Site::id())
+                        ->where('product_id', $product->id);
+                }])
+                ->get();
+        }
 
         $bonusCategories = BonusCategory::forSite()->get();
 
         return view('product-route::edit-product')
             ->with('bonusCategories', $bonusCategories)
-            ->withGroups(Group::forSite()->get())
+            ->withGroups($groups)
             ->withProduct($product);
     }
 
