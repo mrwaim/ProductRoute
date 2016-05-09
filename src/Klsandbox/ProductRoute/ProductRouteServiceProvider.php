@@ -29,7 +29,7 @@ class ProductRouteServiceProvider extends ServiceProvider
             $pattern = "/(?<!\w)(\s*)@(products)-link\(\s*(.*?)\)/";
             return preg_replace($pattern, '$1'
                 . '<?php if($auth->admin) {?>' . PHP_EOL
-                . '<a href="/$2/edit/<?php echo $3->productPricing->id ?>">' . PHP_EOL
+                . '<a href="/$2/edit/<?php echo $3->id ?>">' . PHP_EOL
                 . '<?php echo $3->name ?>' . PHP_EOL
                 . '</a>' . PHP_EOL
                 . '<?php } else { ?>' . PHP_EOL
