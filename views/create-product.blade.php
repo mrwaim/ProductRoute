@@ -58,7 +58,7 @@
                                 <div class="col-md-6">
                                     <select name='bonus_categories_id'>
                                     <option value=''>Any</option>
-                                    @foreach ($bonusCategories as $item)
+                                    @foreach ($site_data->get('bonus_categories') as $item)
                                             <option value='{{$item->id}}'>{{ $item->friendly_name }}</option>
                                         @endforeach
                                     </select>

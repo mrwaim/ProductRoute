@@ -85,11 +85,11 @@
                                                 <input type="hidden" name="{{ "groups[{$index}][group_id]" }}"
                                                        value="{{$item->id}}"/>
                                                 <input type="hidden" name="{{ "groups[{$index}][product_pricing_id]" }}"
-                                                       value="{{$item->productPricing[0]->id}}"/>
+                                                       value="{{$product->pricingForGroup($item) ? $product->pricingForGroup($item)->id : 0}}"/>
                                                 <td>{{ $item->name }}</td>
                                                 <td>
                                                 <input type="number" name="{{ "groups[{$index}][price]" }}"
-                                                           value="{{ $item->productPricing[0]->price }}"
+                                                           value="{{$product->pricingForGroup($item) ? $product->pricingForGroup($item)->price : ''}}"
                                                            placeholder='Price' class="form-control"/>
                                                 </td>
                                             </tr>
