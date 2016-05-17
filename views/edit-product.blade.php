@@ -74,8 +74,14 @@
                                     <table class="table table-bordered table-hover" id="tab_logic">
                                         <thead>
                                         <tr>
-                                            <th class="text-center">Group</th>
-                                            <th class="text-center">Product Price</th>
+                                        <tr>
+                                            <th class="text-center" rowspan="2">Group</th>
+                                            <th class="text-center" colspan="2">Product Price</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-center">West Malaysia</th>
+                                            <th class="text-center">East Malaysia</th>
+
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -91,6 +97,11 @@
                                                 <td>
                                                 <input type="number" name="{{ "groups[{$index}][price]" }}"
                                                            value="{{$product->pricingForGroup($item) ? $product->pricingForGroup($item)->price : ''}}"
+                                                           placeholder='Price' class="form-control"/>
+                                                </td>
+                                                <td>
+                                                <input type="number" name="{{ "groups[{$index}][price_east]" }}"
+                                                           value="{{$product->pricingForGroup($item) ? $product->pricingForGroup($item)->price_east : ''}}"
                                                            placeholder='Price' class="form-control"/>
                                                 </td>
                                             </tr>
