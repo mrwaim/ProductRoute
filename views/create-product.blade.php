@@ -29,8 +29,7 @@
                                 <label class="col-md-4 control-label">Product Description</label>
 
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="description"
-                                           value="{{ old('description') }}">
+                                    <textarea rows="10" class="form-control" name="description">{{ old('description') }}</textarea>
                                 </div>
                             </div>
 
@@ -65,20 +64,40 @@
                                 </div>
                             </div>
 
-                            @if($config->group_enabled)
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Target Group</label>
-                                <div class="col-md-6 column">
+                                <label class="col-md-4 control-label">Max Quantity</label>
+
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="max_quantity"
+                                           value="{{ old('max_quantity') }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Min Quantity</label>
+
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="min_quantity"
+                                           value="{{ old('min_quantity') }}">
+                                </div>
+                            </div>
+
+                        @if($config->group_enabled)
+                            <div class="form-group">
+                                {{--<label class="col-md-2 control-label">Target Group</label>--}}
+                                <div class="col-md-9 col-md-offset-2 column">
                                     <table class="table table-bordered table-hover" id="tab_logic">
                                         <thead>
                                         <tr>
                                             <th class="text-center" rowspan="2">Group</th>
                                             <th class="text-center" colspan="2">Product Price</th>
+                                            <th class="text-center" colspan="2">Delivery</th>
                                         </tr>
                                         <tr>
                                             <th class="text-center">West Malaysia</th>
                                             <th class="text-center">East Malaysia</th>
-
+                                            <th class="text-center">West Malaysia</th>
+                                            <th class="text-center">East Malaysia</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -88,9 +107,19 @@
                                             <tr>
                                                 <td>{{ $item->name }}</td>
                                                 <input type="hidden" name="{{ "groups[{$index}][group_id]" }}" value="{{$item->id}}"/>
-                                                <td><input type="number" name="{{ "groups[{$index}][price]" }}" placeholder="West Price" class="form-control"/></td>
+                                                <td><input type="number" name="{{ "groups[{$index}][price]" }}" placeholder="West Price" class="form-control" value="{{old("groups.$index.price")}}"/></td>
 
-                                                <td><input type="number" name="{{ "groups[{$index}][price_east]" }}" placeholder='East price' class="form-control"/></td>
+                                                <td><input type="number" name="{{ "groups[{$index}][price_east]" }}" placeholder='East price' class="form-control" value="{{old("groups.$index.price_east")}}"/></td>
+                                                <td colspan="1">
+                                                    <input type="number" name="{{ "groups[{$index}][delivery]" }}"
+                                                           value="{{old("groups.$index.delivery")}}"
+                                                           placeholder='Delivery' class="form-control"/>
+                                                </td>
+                                                <td colspan="1">
+                                                    <input type="number" name="{{ "groups[{$index}][delivery_east]" }}"
+                                                           value="{{old("groups.$index.delivery_east")}}"
+                                                           placeholder='Delivery' class="form-control"/>
+                                                </td>
                                             </tr>
                                         @endforeach
                                         </tbody>

@@ -20,7 +20,7 @@
             <tr>
                 <td>@products-link($item)</td>
                 <td>{{ $item->name }}</td>
-                <td>{{ $item->description }}</td>
+                <td>@foreach(explode(PHP_EOL, $item->description) as $line ){{$line}}<br/>@endforeach</td>
                 @if(! $config->group_enabled)
                 <td>{{ $item->productPricing->groups()->first() ? $item->productPricing->groups()->first()->name : 'Any' }}</td>
                 <td>{{ $item->productPricing->price }}</td>
