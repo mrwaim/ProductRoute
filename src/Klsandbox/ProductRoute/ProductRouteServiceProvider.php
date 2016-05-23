@@ -1,11 +1,12 @@
-<?php namespace Klsandbox\ProductRoute;
+<?php
+
+namespace Klsandbox\ProductRoute;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 
 class ProductRouteServiceProvider extends ServiceProvider
 {
-
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -22,11 +23,12 @@ class ProductRouteServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../../../views/', 'product-route');
 
         $this->publishes([
-            __DIR__ . '/../../../views/' => base_path('resources/views/vendor/product-route')
+            __DIR__ . '/../../../views/' => base_path('resources/views/vendor/product-route'),
         ], 'views');
 
         \Blade::extend(function ($view, $compiler) {
             $pattern = "/(?<!\w)(\s*)@(products)-link\(\s*(.*?)\)/";
+
             return preg_replace($pattern, '$1'
                 . '<?php if($auth->admin) {?>' . PHP_EOL
                 . '<a href="/$2/edit/<?php echo $3->id ?>">' . PHP_EOL
@@ -57,5 +59,4 @@ class ProductRouteServiceProvider extends ServiceProvider
     {
         return [];
     }
-
 }

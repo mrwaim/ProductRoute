@@ -8,12 +8,9 @@ use Illuminate\Support\Facades\Validator;
 use Klsandbox\OrderModel\Models\Product;
 use Auth;
 use Input;
-use Klsandbox\OrderModel\Models\ProductPricing;
 use Klsandbox\RoleModel\Role;
-use Klsandbox\SiteModel\Site;
 use Redirect;
 use Session;
-
 use App\Http\Controllers\Controller;
 
 class ProductManagementController extends Controller
@@ -48,15 +45,14 @@ class ProductManagementController extends Controller
             ->with('products', Product::getAvailableProductList());
     }
 
-
     public function getCreateProduct()
     {
         $bonusCategories = BonusCategory::forSite()->get();
+
         return view('product-route::create-product')
             ->with('bonusCategories', $bonusCategories)
             ->withGroups(Group::forSite()->get());
     }
-
 
     /**
      * Save new product
@@ -65,7 +61,6 @@ class ProductManagementController extends Controller
      */
     public function postCreateProduct()
     {
-
         $inputs = Input::all();
 
         if (!config('group.enabled')) {
@@ -153,11 +148,11 @@ class ProductManagementController extends Controller
         return Redirect::to('/products/list');
     }
 
-
     /**
      * Validator for create new product when group is disabled
      *
      * @param array $input
+     *
      * @return mixed
      */
     public function createProductGroupDisabledValidator(array $input)
@@ -166,7 +161,7 @@ class ProductManagementController extends Controller
             'name' => 'required',
             'description' => 'required',
             'price' => 'required|numeric',
-            'image' => 'required|image'
+            'image' => 'required|image',
         ]);
     }
 
@@ -180,7 +175,7 @@ class ProductManagementController extends Controller
         $rules = [
             'name' => 'required',
             'description' => 'required',
-            'image' => 'required|image'
+            'image' => 'required|image',
         ];
 
         return Validator::make($input, $rules);
@@ -188,7 +183,9 @@ class ProductManagementController extends Controller
 
     /**
      * Validator for create product when group is disabled
+     *
      * @param array $input
+     *
      * @return mixed
      */
     public function updateProductGroupDisabledValidator(array $input)
@@ -197,13 +194,15 @@ class ProductManagementController extends Controller
             'name' => 'required',
             'price' => 'required|numeric',
             'description' => 'required',
-            'image' => 'image'
+            'image' => 'image',
         ]);
     }
 
     /**
      * Validator for create product when group is enabled
+     *
      * @param array $input
+     *
      * @return mixed
      */
     public function updateProductGroupEnabledValidator(array $input)
@@ -211,8 +210,7 @@ class ProductManagementController extends Controller
         return Validator::make($input, [
             'name' => 'required',
             'description' => 'required',
-            'image' => 'image'
+            'image' => 'image',
         ]);
     }
-
 }
