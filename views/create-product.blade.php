@@ -82,6 +82,25 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">HQ Product</label>
+
+                                <div class="col-md-6">
+                                    <label>
+                                        <input type="radio" name="is_hq" value="1"
+                                                {{  (old('is_hq') != '0')  ? 'checked' : '' }}
+                                        >
+                                        Yes
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="is_hq" value="0"
+                                                {{ (old('is_hq') == '0')  ? 'checked' : '' }}
+                                        >
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+
                         @if($config->group_enabled)
                             <div class="form-group">
                                 {{--<label class="col-md-2 control-label">Target Group</label>--}}
