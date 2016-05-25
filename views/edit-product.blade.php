@@ -103,6 +103,43 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">For Customer</label>
+
+                                <div class="col-md-6">
+                                    <label>
+                                        <input type="radio" name="for_customer" value="1"
+                                                {{  (old('for_customer', $product->for_customer) != '0')  ? 'checked' : '' }}
+                                        >
+                                        Yes
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="for_customer" value="0"
+                                                {{ (old('for_customer', $product->for_customer) == '0')  ? 'checked' : '' }}
+                                        >
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">For new user</label>
+
+                                <div class="col-md-6">
+                                    <label>
+                                        <input type="radio" name="new_user" value="1"
+                                                {{  (old('new_user', $product->new_user) != '0')  ? 'checked' : '' }}
+                                        >
+                                        Yes
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="new_user" value="0"
+                                                {{ (old('new_user', $product->new_user) == '0')  ? 'checked' : '' }}
+                                        >
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+
 
                         @if($config->group_enabled)
                                 <div class="form-group">
