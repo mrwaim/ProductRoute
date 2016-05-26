@@ -85,6 +85,25 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-md-3 control-label">Hide</label>
+
+                                <div class="col-md-6">
+                                    <label>
+                                        <input type="radio" name="hidden_from_ordering" value="1"
+                                                {{  (old('hidden_from_ordering', $product->hidden_from_ordering) == '1')  ? 'checked' : '' }}
+                                        >
+                                        Yes
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="hidden_from_ordering" value="0"
+                                                {{ (old('hidden_from_ordering', $product->hidden_from_ordering) != '1')  ? 'checked' : '' }}
+                                        >
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-md-3 control-label">HQ Product</label>
 
                                 <div class="col-md-6">
