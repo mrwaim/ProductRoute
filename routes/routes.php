@@ -22,6 +22,7 @@ Route::group(['middleware' => ['role:admin']], function () {
         Route::get('delete/{product}', '\Klsandbox\ProductRoute\Http\Controllers\ProductManagementController@getDelete');
         Route::get('edit/{product}', '\Klsandbox\ProductRoute\Http\Controllers\ProductManagementController@getEdit');
         Route::get('list', '\Klsandbox\ProductRoute\Http\Controllers\ProductManagementController@getList');
+        Route::get('all', '\Klsandbox\ProductRoute\Http\Controllers\ProductManagementController@getListAll');
         Route::post('update/{product}', '\Klsandbox\ProductRoute\Http\Controllers\ProductManagementController@postUpdate');
 
     });

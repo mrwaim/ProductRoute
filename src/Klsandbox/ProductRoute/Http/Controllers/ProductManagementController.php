@@ -45,6 +45,12 @@ class ProductManagementController extends Controller
             ->with('products', Product::getAvailableProductList());
     }
 
+    public function getListAll()
+    {
+        return view('product-route::list')
+            ->with('products', Product::getAllProductList());
+    }
+
     public function getCreateProduct()
     {
         $bonusCategories = BonusCategory::forSite()->get();
