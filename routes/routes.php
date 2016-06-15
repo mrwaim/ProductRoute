@@ -27,16 +27,3 @@ Route::group(['middleware' => ['role:admin']], function () {
 
     });
 });
-
-
-Route::bind('product_pricing', function ($id) {
-    $productPricing = \Klsandbox\OrderModel\Models\ProductPricing::find($id);
-    \Klsandbox\SiteModel\Site::protect($productPricing, 'Product Pricing');
-    return $productPricing;
-});
-
-Route::bind('product', function ($id) {
-    $product = \Klsandbox\OrderModel\Models\Product::find($id);
-    \Klsandbox\SiteModel\Site::protect($product, 'Product');
-    return $product;
-});

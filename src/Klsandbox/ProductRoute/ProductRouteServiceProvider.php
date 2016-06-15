@@ -20,6 +20,18 @@ class ProductRouteServiceProvider extends ServiceProvider
             require __DIR__ . '/../../../routes/routes.php';
         }
 
+        $router->bind('product_pricing', function ($id) {
+            $productPricing = \Klsandbox\OrderModel\Models\ProductPricing::find($id);
+            \Klsandbox\SiteModel\Site::protect($productPricing, 'Product Pricing');
+            return $productPricing;
+        });
+
+        $router->bind('product', function ($id) {
+            $product = \Klsandbox\OrderModel\Models\Product::find($id);
+            \Klsandbox\SiteModel\Site::protect($product, 'Product');
+            return $product;
+        });
+
         $this->loadViewsFrom(__DIR__ . '/../../../views/', 'product-route');
 
         $this->publishes([
