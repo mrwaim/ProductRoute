@@ -156,8 +156,14 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Exipiry Date</label>
+                                <div class="col-md-6">
+                                    <input type="text" name="expiry_date" data-plugin-datepicker data-date-format="dd/mm/yyyy" class="form-control">
+                                </div>
+                            </div>
 
-                        @if($config->group_enabled)
+                            @if($config->group_enabled)
                             <div class="form-group">
                                 {{--<label class="col-md-2 control-label">Target Group</label>--}}
                                 <div class="col-md-9 col-md-offset-2 column">
