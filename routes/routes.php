@@ -12,18 +12,28 @@ Route::group(['middleware' => ['role:admin']], function () {
      * |--------------------------------------------------------------------------
      */
 
-    Route::group(['prefix' => 'products'], function () {
+    Route::group(['prefix' => 'products', 'namespace' => '\Klsandbox\ProductRoute\Http\Controllers'], function () {
 
         /**
          * Products
          */
-        Route::get('create-product', '\Klsandbox\ProductRoute\Http\Controllers\ProductManagementController@getCreateProduct');
-        Route::post('create-product', '\Klsandbox\ProductRoute\Http\Controllers\ProductManagementController@postCreateProduct');
-        Route::get('delete/{product}', '\Klsandbox\ProductRoute\Http\Controllers\ProductManagementController@getDelete');
-        Route::get('edit/{product}', '\Klsandbox\ProductRoute\Http\Controllers\ProductManagementController@getEdit');
-        Route::get('list', '\Klsandbox\ProductRoute\Http\Controllers\ProductManagementController@getList');
-        Route::get('all', '\Klsandbox\ProductRoute\Http\Controllers\ProductManagementController@getListAll');
-        Route::post('update/{product}', '\Klsandbox\ProductRoute\Http\Controllers\ProductManagementController@postUpdate');
+        Route::get('create-product', 'ProductManagementController@getCreateProduct');
+        Route::post('create-product', 'ProductManagementController@postCreateProduct');
+        Route::get('delete/{product}', 'ProductManagementController@getDelete');
+        Route::get('edit/{product}', 'ProductManagementController@getEdit');
+        Route::get('list', 'ProductManagementController@getList');
+        Route::get('all', 'ProductManagementController@getListAll');
+        Route::post('update/{product}', 'ProductManagementController@postUpdate');
+
+        /**
+         * Product Units
+         */
+        Route::get('units', 'ProductUnitController@getList');
+        Route::post('units', 'ProductUnitController@store');
+        Route::get('units/create', 'ProductUnitController@create');
+        Route::get('units/{productUnitId}', 'ProductUnitController@view');
+        Route::put('units/{productUnitId}', 'ProductUnitController@update');
+        Route::delete('units/{productUnitId}', 'ProductUnitController@destroy');
 
     });
 });

@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="{{isset($table_class) ? $table_class : 'table table-bordered table-striped table-condensed mb-none'}}">
+    <table class="{{isset($table_class) ? $table_class : 'table table-bordered table-striped table-condensed mb-none'}}" id="table-list-product">
         <thead>
         <tr>
             <th>Name</th>
