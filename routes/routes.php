@@ -19,6 +19,8 @@ Route::group(['middleware' => ['role:admin']], function () {
          */
         Route::post('{product}/units', 'ProductManagementController@storeUnits');
         Route::delete('{product}/units/{product_unit}', 'ProductManagementController@deleteUnits');
+        Route::get('{product}/units/{product_unit}', 'ProductManagementController@viewUnits');
+        Route::put('{product}/units/{product_unit}', 'ProductManagementController@updateUnits');
         Route::get('create-product', 'ProductManagementController@getCreateProduct');
         Route::post('create-product', 'ProductManagementController@postCreateProduct');
         Route::get('delete/{product}', 'ProductManagementController@getDelete');

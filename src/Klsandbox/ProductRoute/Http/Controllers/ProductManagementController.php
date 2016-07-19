@@ -250,4 +250,27 @@ class ProductManagementController extends Controller
 
         return redirect()->back();
     }
+
+    public function viewUnits(Request $request, $product, $productUnit)
+    {
+        $unit = $product->units->where('id', $productUnit->id)->first();
+
+        $data = [
+            'unit' => $unit,
+            'product' => $product
+        ];
+
+        return view('product-route::view-unit', $data);
+    }
+
+    public function updateUnits(Request $request, $product, $productUnit)
+    {
+        $unit = $product->units->where('id', $productUnit->id)->first();
+
+        $unit->pivot->update(['quantity' => $request->input('quantity')]);
+
+        flash()->success('Success!', 'Unit has been updated');
+
+        return redirect()->back();
+    }
 }
