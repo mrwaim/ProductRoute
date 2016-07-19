@@ -298,6 +298,7 @@
                                     <th class="text-center">Name</th>
                                     <th class="text-center">Description</th>
                                     <th class="text-center">Quantity</th>
+                                    <th class="text-center">Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -306,6 +307,13 @@
                                         <td>{{ $unit->name }}</td>
                                         <td>{{ $unit->description }}</td>
                                         <td>{{ $unit->pivot->quantity }}</td>
+                                        <td>
+                                            <form method="post" action="{{ url('products/' . $product->id . '/units/' . $unit->id) }}">
+                                                {{ csrf_field() }}
+                                                <input type="hidden" name="_method" value="DELETE"/>
+                                                <button type="submit" class="btn btn-danger delete_with_confirm"><i class="fa fa-trash"></i> </button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>

@@ -241,4 +241,13 @@ class ProductManagementController extends Controller
         return redirect()->back();
 
     }
+
+    public function deleteUnits($product, $productUnit)
+    {
+        $product->units()->detach($productUnit->id);
+
+        flash()->success('Success!', 'Unit has been deleted');
+
+        return redirect()->back();
+    }
 }
