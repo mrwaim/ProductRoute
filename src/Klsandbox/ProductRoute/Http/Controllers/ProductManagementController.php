@@ -4,10 +4,12 @@ namespace Klsandbox\ProductRoute\Http\Controllers;
 
 use App\Models\BonusCategory;
 use App\Models\Group;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Klsandbox\OrderModel\Models\Product;
 use Auth;
 use Input;
+use Klsandbox\OrderModel\Models\ProductUnit;
 use Klsandbox\RoleModel\Role;
 use Redirect;
 use Session;
@@ -32,11 +34,18 @@ class ProductManagementController extends Controller
         }
 
         $bonusCategories = BonusCategory::forSite()->get();
+        $units = $product->units()->get();
+        $productUnits = ProductUnit::whereNotIn('id', $units->pluck('id'))->get();
 
-        return view('product-route::edit-product')
-            ->with('bonusCategories', $bonusCategories)
-            ->withGroups($groups)
-            ->withProduct($product);
+        $data = [
+            'bonusCategories' => $bonusCategories,
+            'groups' => $groups,
+            'product' => $product,
+            'productUnits' => $productUnits,
+            'units' => $units
+        ];
+
+        return view('product-route::edit-product', $data);
     }
 
     public function getList()
@@ -218,5 +227,27 @@ class ProductManagementController extends Controller
             'description' => 'required',
             'image' => 'image',
         ]);
+    }
+
+    public function storeUnits(Request $request, $product)
+    {
+        $product->units()->attach(
+            $request->input('product_unit_id'),
+            ['quantity' => $request->input('product_unit_id')]
+        );
+
+        flash()->success('Success!', 'Unit has been added');
+
+        return redirect()->back();
+
+    }
+
+    public function deleteUnits($product, $productUnit)
+    {
+        $product->units()->detach($productUnit->id);
+
+        flash()->success('Success!', 'Unit has been deleted');
+
+        return redirect()->back();
     }
 }

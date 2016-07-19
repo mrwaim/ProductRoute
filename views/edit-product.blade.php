@@ -236,4 +236,93 @@
             </form>
         </div>
     </section>
+
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">Product Units</h2>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="#modalAddUnit" class="btn modal-add-unit btn-primary"><i class="fa fa-plus"></i> Add Unit</a>
+                </div>
+            </div>
+
+            <div id="modalAddUnit" class="modal-block modal-block-primary mfp-hide">
+                <form class="form-horizontal" method="post" action="{{ url('products/' . $product->id . '/units') }}"
+                    id="formAddUnit">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            <h2 class="panel-title">Add Unit</h2>
+                        </header>
+                        <div class="panel-body">
+                            {{ csrf_field() }}
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Unit</label>
+                                <div class="col-md-7">
+                                    <select class="form-control" name="product_unit_id" required>
+                                        <option value="">Select unit</option>
+                                        @foreach($productUnits as $productUnit)
+                                            <option value="{{ $productUnit->id }}">{{ $productUnit->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Quantity</label>
+                                <div class="col-md-7">
+                                    <input type="number" min="1" name="quantity" value="1" class="form-control" required/>
+                                </div>
+                            </div>
+                        </div>
+                        <footer class="panel-footer">
+                            <div class="row">
+                                <div class="col-md-12 text-right">
+                                    <button type="submit" class="btn btn-primary submit-unit">Confirm</button>
+                                    <button class="btn btn-default modal-dismiss">Cancel</button>
+                                </div>
+                            </div>
+                        </footer>
+                    </section>
+                </form>
+            </div>
+
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive" id="product-units-container">
+                        <div class="table-responsive">
+                            <table class="{{isset($table_class) ? $table_class : 'table table-bordered table-striped table-condensed mb-none'}}" id="table-list-unit">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Description</th>
+                                    <th class="text-center">Quantity</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($units as $unit)
+                                    <tr>
+                                        <td>{{ $unit->name }}</td>
+                                        <td>{{ $unit->description }}</td>
+                                        <td>{{ $unit->pivot->quantity }}</td>
+                                        <td>
+                                            <form method="post" action="{{ url('products/' . $product->id . '/units/' . $unit->id) }}">
+                                                {{ csrf_field() }}
+                                                <input type="hidden" name="_method" value="DELETE"/>
+                                                <button type="submit" class="btn btn-danger delete_with_confirm"><i class="fa fa-trash"></i> </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 @endsection
