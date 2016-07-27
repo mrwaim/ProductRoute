@@ -22,14 +22,13 @@ class ProductRouteServiceProvider extends ServiceProvider
 
         $router->bind('product_pricing', function ($id) {
             $productPricing = \Klsandbox\OrderModel\Models\ProductPricing::find($id);
-            \Klsandbox\SiteModel\Site::protect($productPricing, 'Product Pricing');
+
 
             return $productPricing;
         });
 
         $router->bind('product', function ($id) {
             $product = \Klsandbox\OrderModel\Models\Product::find($id);
-            \Klsandbox\SiteModel\Site::protect($product, 'Product');
 
             return $product;
         });
