@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 use Klsandbox\OrderModel\Models\Product;
 use Klsandbox\OrderModel\Models\ProductPricing;
+use Klsandbox\OrderModel\Models\ProductUnit;
 
 class ProductRouteServiceProvider extends ServiceProvider
 {
@@ -33,6 +34,16 @@ class ProductRouteServiceProvider extends ServiceProvider
             $product = Product::find($id);
             Site::protect($product, 'Product');
             return $product;
+        });
+
+        $router->bind('product_unit', function ($id) {
+            $productUnit = ProductUnit::find($id);
+
+            if (! $productUnit) {
+                \App::abort(404, 'Product Unit not found');
+            }
+
+            return $productUnit;
         });
 
         $this->loadViewsFrom(__DIR__ . '/../../../views/', 'product-route');
