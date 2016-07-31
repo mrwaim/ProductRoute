@@ -2,8 +2,11 @@
 
 namespace Klsandbox\ProductRoute;
 
+use App\Services\Site;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
+use Klsandbox\OrderModel\Models\Product;
+use Klsandbox\OrderModel\Models\ProductPricing;
 
 class ProductRouteServiceProvider extends ServiceProvider
 {
@@ -21,15 +24,14 @@ class ProductRouteServiceProvider extends ServiceProvider
         }
 
         $router->bind('product_pricing', function ($id) {
-            $productPricing = \Klsandbox\OrderModel\Models\ProductPricing::find($id);
-
-
+            $productPricing = ProductPricing::find($id);
+            Site::protect($productPricing, 'Product pricing');
             return $productPricing;
         });
 
         $router->bind('product', function ($id) {
-            $product = \Klsandbox\OrderModel\Models\Product::find($id);
-
+            $product = Product::find($id);
+            Site::protect($product, 'Product');
             return $product;
         });
 
