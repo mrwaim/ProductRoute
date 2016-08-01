@@ -30,10 +30,10 @@ class ProductManagementController extends Controller
         if (!config('group.enabled')) {
             $groups = null;
         } else {
-            $groups = Group::forSite()->get();
+            $groups = Group::all();
         }
 
-        $bonusCategories = BonusCategory::forSite()->get();
+        $bonusCategories = BonusCategory::all();
         $units = $product->units()->get();
         $productUnits = ProductUnit::whereNotIn('id', $units->pluck('id'))->get();
 
@@ -62,11 +62,11 @@ class ProductManagementController extends Controller
 
     public function getCreateProduct()
     {
-        $bonusCategories = BonusCategory::forSite()->get();
+        $bonusCategories = BonusCategory::all();
 
         return view('product-route::create-product')
             ->with('bonusCategories', $bonusCategories)
-            ->withGroups(Group::forSite()->get());
+            ->withGroups(Group::all());
     }
 
     /**
@@ -88,7 +88,7 @@ class ProductManagementController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->withGroups(\App\Models\Group::forSite()->get())
+                ->withGroups(Group::all())
                 ->withErrors($messages);
         }
 
@@ -125,7 +125,7 @@ class ProductManagementController extends Controller
         if ($messages->messages()->count() && Auth::user()->role_id === Role::Admin()->id) {
             return view('product-route::edit-product')
                 ->withProductPricing($productPricing)
-                ->withGroups(Group::forSite()->get())
+                ->withGroups(Group::all())
                 ->withErrors($messages);
         }
 
