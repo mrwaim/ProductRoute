@@ -142,7 +142,11 @@ class ProductManagementController extends Controller
     {
         $product->units()->attach(
             $request->input('product_unit_id'),
-            ['quantity' => $request->input('product_unit_id')]
+            [
+                'quantity' => $request->input('quantity'),
+                'quantity_east' => $request->input('quantity_east'),
+                'quantity_pickup' => $request->input('quantity_pickup'),
+            ]
         );
 
         flash()->success('Success!', 'Unit has been added');
@@ -176,7 +180,11 @@ class ProductManagementController extends Controller
     {
         $unit = $product->units->where('id', $productUnit->id)->first();
 
-        $unit->pivot->update(['quantity' => $request->input('quantity')]);
+        $unit->pivot->update([
+            'quantity' => $request->input('quantity'),
+            'quantity_east' => $request->input('quantity_east'),
+            'quantity_pickup' => $request->input('quantity_pickup'),
+        ]);
 
         flash()->success('Success!', 'Unit has been updated');
 
