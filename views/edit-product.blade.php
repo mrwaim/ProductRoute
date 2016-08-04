@@ -284,6 +284,18 @@
                                     <input type="number" min="1" name="quantity" value="1" class="form-control" required/>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4">Quantity east</label>
+                                <div class="col-md-7">
+                                    <input type="number" min="1" name="quantity_east" value="1" class="form-control" required/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4">Quantity pickup</label>
+                                <div class="col-md-7">
+                                    <input type="number" min="1" name="quantity_pickup" value="1" class="form-control" required/>
+                                </div>
+                            </div>
                         </div>
                         <footer class="panel-footer">
                             <div class="row">
@@ -308,15 +320,26 @@
                                     <th class="text-center">Name</th>
                                     <th class="text-center">Description</th>
                                     <th class="text-center">Quantity</th>
-                                    <th class="text-center">Actions</th>
+                                    <th class="text-center">Quantity east</th>
+                                    <th class="text-center">Quantity pickup</th>
+                                    <th class="text-center">SKU</th>
+                                    <th class="text-center" width="10%">Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
+                                @if(! count($units))
+                                    <tr>
+                                        <td colspan="5" class="text-center"> No Units</td>
+                                    </tr>
+                                @endif
                                 @foreach($units as $unit)
                                     <tr>
                                         <td>{{ $unit->name }}</td>
                                         <td>{{ $unit->description }}</td>
                                         <td>{{ $unit->pivot->quantity }}</td>
+                                        <td>{{ $unit->pivot->quantity_east }}</td>
+                                        <td>{{ $unit->pivot->quantity_pickup }}</td>
+                                        <td>{{ $unit->sku }}</td>
                                         <td class="text-center">
                                             <form method="post" action="{{ url('products/' . $product->id . '/units/' . $unit->id) }}">
                                                 {{ csrf_field() }}

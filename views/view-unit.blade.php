@@ -24,6 +24,18 @@
                     <input type="number" min="1" name="quantity" value="{{ $unit->pivot->quantity }}" class="form-control" required/>
                 </div>
             </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">Quantity east</label>
+                <div class="col-md-7">
+                    <input type="number" min="1" name="quantity_east" value="{{ $unit->pivot->quantity_east }}" class="form-control" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">Quantity pickup</label>
+                <div class="col-md-7">
+                    <input type="number" min="1" name="quantity_pickup" value="{{ $unit->pivot->quantity_pickup }}" class="form-control" required/>
+                </div>
+            </div>
         </div>
         <footer class="panel-footer">
             <div class="row">
