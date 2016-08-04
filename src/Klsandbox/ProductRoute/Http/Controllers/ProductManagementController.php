@@ -5,11 +5,12 @@ namespace Klsandbox\ProductRoute\Http\Controllers;
 use App\Models\BonusCategory;
 use App\Models\Group;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Klsandbox\OrderModel\Models\Product;
 use Auth;
 use Input;
 use Klsandbox\OrderModel\Models\ProductUnit;
+use Klsandbox\ProductRoute\Request\CreateProductRequest;
+use Klsandbox\ProductRoute\Request\UpdateProductRequest;
 use Klsandbox\RoleModel\Role;
 use Redirect;
 use Session;
@@ -19,30 +20,26 @@ class ProductManagementController extends Controller
 {
     protected $model;
 
-    public function __construct()
+    public function __construct(Product $model)
     {
-        $this->model = new Product();
+        $this->model = $model;
         $this->middleware('auth');
     }
 
     public function getEdit(Product $product)
     {
-        if (!config('group.enabled')) {
-            $groups = null;
-        } else {
-            $groups = Group::all();
-        }
-
+        $groups = Group::all();
         $bonusCategories = BonusCategory::all();
         $units = $product->units()->get();
         $productUnits = ProductUnit::whereNotIn('id', $units->pluck('id'))->get();
-
+        $roles = Role::all();
         $data = [
             'bonusCategories' => $bonusCategories,
             'groups' => $groups,
             'product' => $product,
             'productUnits' => $productUnits,
-            'units' => $units
+            'units' => $units,
+            'roles' => $roles,
         ];
 
         return view('product-route::edit-product', $data);
@@ -63,36 +60,29 @@ class ProductManagementController extends Controller
     public function getCreateProduct()
     {
         $bonusCategories = BonusCategory::all();
+        $groups = Group::all();
+        $roles = Role::all();
 
-        return view('product-route::create-product')
-            ->with('bonusCategories', $bonusCategories)
-            ->withGroups(Group::all());
+        $data = [
+            'bonusCategories' => $bonusCategories,
+            'groups' => $groups,
+            'roles' => $roles
+        ];
+
+        return view('product-route::create-product', $data);
     }
 
     /**
      * Save new product
      *
+     * @param CreateProductRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postCreateProduct()
+    public function postCreateProduct(CreateProductRequest $request)
     {
-        $inputs = Input::all();
+        $inputs = $request->all();
 
-        if (!config('group.enabled')) {
-            $messages = $this->createProductGroupDisabledValidator($inputs);
-        } else {
-            $messages = $this->createProductGroupEnabledValidator($inputs);
-        }
-
-        if ($messages->messages()->count() && Auth::user()->role_id === Role::Admin()->id) {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->withGroups(Group::all())
-                ->withErrors($messages);
-        }
-
-        $file = Input::file('image');
+        $file = $request->file('image');
         $destination = public_path() . '/uploads/';
         $extension = $file->getClientOriginalExtension();
         $fileName = bin2hex(random_bytes(32)) . '.' . $extension;
@@ -101,33 +91,22 @@ class ProductManagementController extends Controller
         $inputs['image'] = '/uploads/' . $fileName;
         $inputs = array_except($inputs, ['_token']);
 
-        if (!config('group.enabled')) {
-            $this->model->createProductGroupDisabled($inputs);
-        } else {
-            $this->model->createProductGroupEnabled($inputs);
-        }
+        $inputs['is_available'] = true;
+        $this->model->create($inputs);
 
         Session::flash('success_message', 'Product has been created.');
 
         return Redirect::to('/products/list');
     }
 
-    public function postUpdate(Product $product)
+    /**
+     * @param UpdateProductRequest $request
+     * @param Product $product
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postUpdate(UpdateProductRequest $request, Product $product)
     {
-        $inputs = Input::all();
-
-        if (!config('group.enabled')) {
-            $messages = $this->updateProductGroupDisabledValidator($inputs);
-        } else {
-            $messages = $this->updateProductGroupEnabledValidator($inputs);
-        }
-
-        if ($messages->messages()->count() && Auth::user()->role_id === Role::Admin()->id) {
-            return view('product-route::edit-product')
-                ->withProductPricing($productPricing)
-                ->withGroups(Group::all())
-                ->withErrors($messages);
-        }
+        $inputs = $request->all();
 
         if (Input::hasFile('image')) {
             $file = Input::file('image');
@@ -143,11 +122,7 @@ class ProductManagementController extends Controller
             }
         }
 
-        if (!config('group.enabled')) {
-            $this->model->updateProductGroupDisabled($product, $inputs);
-        } else {
-            $this->model->updateProductGroupEnabled($product, $inputs);
-        }
+        $product->update($inputs);
 
         Session::flash('success_message', 'Product has been updated.');
 
@@ -161,72 +136,6 @@ class ProductManagementController extends Controller
         Session::flash('success_message', 'Product has been deleted.');
 
         return Redirect::to('/products/list');
-    }
-
-    /**
-     * Validator for create new product when group is disabled
-     *
-     * @param array $input
-     *
-     * @return mixed
-     */
-    public function createProductGroupDisabledValidator(array $input)
-    {
-        return Validator::make($input, [
-            'name' => 'required',
-            'description' => 'required',
-            'price' => 'required|numeric',
-            'image' => 'required|image',
-        ]);
-    }
-
-    /**
-     * Validator for create product when group is enabled
-     *
-     * @param array $input
-     */
-    public function createProductGroupEnabledValidator(array $input)
-    {
-        $rules = [
-            'name' => 'required',
-            'description' => 'required',
-            'image' => 'required|image',
-        ];
-
-        return Validator::make($input, $rules);
-    }
-
-    /**
-     * Validator for create product when group is disabled
-     *
-     * @param array $input
-     *
-     * @return mixed
-     */
-    public function updateProductGroupDisabledValidator(array $input)
-    {
-        return Validator::make($input, [
-            'name' => 'required',
-            'price' => 'required|numeric',
-            'description' => 'required',
-            'image' => 'image',
-        ]);
-    }
-
-    /**
-     * Validator for create product when group is enabled
-     *
-     * @param array $input
-     *
-     * @return mixed
-     */
-    public function updateProductGroupEnabledValidator(array $input)
-    {
-        return Validator::make($input, [
-            'name' => 'required',
-            'description' => 'required',
-            'image' => 'image',
-        ]);
     }
 
     public function storeUnits(Request $request, $product)
