@@ -317,11 +317,18 @@
                                         <td>{{ $unit->name }}</td>
                                         <td>{{ $unit->description }}</td>
                                         <td>{{ $unit->pivot->quantity }}</td>
-                                        <td>
+                                        <td class="text-center">
                                             <form method="post" action="{{ url('products/' . $product->id . '/units/' . $unit->id) }}">
                                                 {{ csrf_field() }}
                                                 <input type="hidden" name="_method" value="DELETE"/>
-                                                <button type="submit" class="btn btn-danger delete_with_confirm"><i class="fa fa-trash"></i> </button>
+                                                <button type="submit" class="btn btn-danger delete_with_confirm">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                                <a href="#modalEditUnit"
+                                                   class="btn modal-edit-unit btn-warning"
+                                                   data-unit="{{ $unit->id }}">
+                                                    <i class="fa fa-pencil"></i>
+                                                </a>
                                             </form>
                                         </td>
                                     </tr>
@@ -334,5 +341,11 @@
             </div>
         </div>
     </section>
+
+    <div id="modalEditUnit" class="modal-block modal-block-primary mfp-hide" >
+    </div>
+
+    <!-- helper -->
+    <input type="hidden" name="viewUnitUrl" value="{{ url('products/' . $product->id . '/units') }}"/>
 
 @endsection
