@@ -20,8 +20,8 @@
                 <td>@products-link($item)</td>
                 <td>@foreach(explode(PHP_EOL, $item->description) as $line ){{$line}}<br/>@endforeach</td>
                 @if(! $config->group_enabled)
-                <td>{{ $item->productPricing->group ? $item->productPricing->group->name : 'Any' }}</td>
-                <td>{{ $item->productPricing->price }}</td>
+                <td>{{ $item->product->group ? $item->product->group->name : 'Any' }}</td>
+                <td>{{ $item->product->price }}</td>
                 @endif
                 <td>{{ $item->bonusCategory ? $item->bonusCategory->friendly_name : 'Any' }}</td>
                 @if($auth->admin)

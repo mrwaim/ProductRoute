@@ -18,46 +18,32 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Product Name</label>
-
+                                <label class="col-md-4 control-label">Product Name *</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+                                    <input type="text" class="form-control" name="name" value="{{ old('name') }}" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Product Description</label>
-
+                                <label class="col-md-4 control-label">Product Description *</label>
                                 <div class="col-md-6">
-                                    <textarea rows="10" class="form-control" name="description">{{ old('description') }}</textarea>
+                                    <textarea rows="10" class="form-control" name="description" required>{{ old('description') }}</textarea>
                                 </div>
                             </div>
 
-                            @if(! $config->group_enabled)
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Product Price</label>
-
+                                <label for="image" class="control-label col-md-4">Product Image *</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="price"
-                                           value="{{ old('price') }}">
+                                    <input type="file" class="form-control" name="image" id="image" required>
                                 </div>
                             </div>
-                            @endif
-
-                            <div class="form-group">
-                                <label for="image" class="control-label col-md-4">Product Image</label>
-                                <div class="col-md-6">
-                                    <input type="file" class="form-control" name="image" id="image">
-                                </div> <!-- end div.col-md-6 -->
-                            </div> <!-- end div.form-group -->
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Bonus Category</label>
-
                                 <div class="col-md-6">
-                                    <select name='bonus_categories_id'>
-                                    <option value=''>Any</option>
-                                    @foreach ($site_data->get('bonus_categories') as $item)
+                                    <select name='bonus_categories_id' class="form-control">
+                                        <option value=''>Any</option>
+                                        @foreach ($site_data->get('bonus_categories') as $item)
                                             <option value='{{$item->id}}'>{{ $item->friendly_name }}</option>
                                         @endforeach
                                     </select>
@@ -65,37 +51,30 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Max Quantity</label>
-
+                                <label class="col-md-4 control-label">Max Quantity *</label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="max_quantity"
-                                           value="{{ old('max_quantity') }}">
+                                           value="{{ old('max_quantity') }}" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Min Quantity</label>
-
+                                <label class="col-md-4 control-label">Min Quantity *</label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="min_quantity"
-                                           value="{{ old('min_quantity') }}">
+                                           value="{{ old('min_quantity') }}" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Hide</label>
-
                                 <div class="col-md-6">
                                     <label>
-                                        <input type="radio" name="hidden_from_ordering" value="1"
-                                                {{  (old('hidden_from_ordering') == '1')  ? 'checked' : '' }}
-                                        >
+                                        <input type="radio" name="hidden_from_ordering" value="1" {{  (old('hidden_from_ordering') == '1')  ? 'checked' : '' }} />
                                         Yes
                                     </label>
                                     <label>
-                                        <input type="radio" name="hidden_from_ordering" value="0"
-                                                {{ (old('hidden_from_ordering') != '1')  ? 'checked' : '' }}
-                                        >
+                                        <input type="radio" name="hidden_from_ordering" value="0" {{ (old('hidden_from_ordering') != '1')  ? 'checked' : '' }} />
                                         No
                                     </label>
                                 </div>
@@ -103,18 +82,13 @@
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label">HQ Product</label>
-
                                 <div class="col-md-6">
-                                    <label>
-                                        <input type="radio" name="is_hq" value="1"
-                                                {{  (old('is_hq') != '0')  ? 'checked' : '' }}
-                                        >
+                                    <label class="control-label">
+                                        <input type="radio" name="is_hq" value="1" {{  (old('is_hq') != '0')  ? 'checked' : '' }} />
                                         Yes
                                     </label>
                                     <label>
-                                        <input type="radio" name="is_hq" value="0"
-                                                {{ (old('is_hq') == '0')  ? 'checked' : '' }}
-                                        >
+                                        <input type="radio" name="is_hq" value="0" {{ (old('is_hq') == '0')  ? 'checked' : '' }} />
                                         No
                                     </label>
                                 </div>
@@ -122,18 +96,13 @@
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label">For Customer</label>
-
                                 <div class="col-md-6">
                                     <label>
-                                        <input type="radio" name="for_customer" value="1"
-                                                {{  (old('for_customer') != '0')  ? 'checked' : '' }}
-                                        >
+                                        <input type="radio" name="for_customer" value="1"{{  (old('for_customer') != '0')  ? 'checked' : '' }}/>
                                         Yes
                                     </label>
                                     <label>
-                                        <input type="radio" name="for_customer" value="0"
-                                                {{ (old('for_customer') == '0')  ? 'checked' : '' }}
-                                        >
+                                        <input type="radio" name="for_customer" value="0" {{ (old('for_customer') == '0')  ? 'checked' : '' }}/>
                                         No
                                     </label>
                                 </div>
@@ -143,15 +112,11 @@
 
                                 <div class="col-md-6">
                                     <label>
-                                        <input type="radio" name="new_user" value="1"
-                                                {{  (old('new_user') != '0')  ? 'checked' : '' }}
-                                        >
+                                        <input type="radio" name="new_user" value="1" {{  (old('new_user') != '0')  ? 'checked' : '' }}/>
                                         Yes
                                     </label>
                                     <label>
-                                        <input type="radio" name="new_user" value="0"
-                                                {{ (old('new_user') == '0')  ? 'checked' : '' }}
-                                        >
+                                        <input type="radio" name="new_user" value="0" {{ (old('new_user') == '0')  ? 'checked' : '' }}/>
                                         No
                                     </label>
                                 </div>
@@ -163,51 +128,92 @@
                                 </div>
                             </div>
 
-                            @if($config->group_enabled)
                             <div class="form-group">
-                                {{--<label class="col-md-2 control-label">Target Group</label>--}}
-                                <div class="col-md-9 col-md-offset-2 column">
-                                    <table class="table table-bordered table-hover" id="tab_logic">
-                                        <thead>
-                                        <tr>
-                                            <th class="text-center" rowspan="2">Group</th>
-                                            <th class="text-center" colspan="2">Product Price</th>
-                                            <th class="text-center" colspan="2">Delivery</th>
-                                        </tr>
-                                        <tr>
-                                            <th class="text-center">West Malaysia</th>
-                                            <th class="text-center">East Malaysia</th>
-                                            <th class="text-center">West Malaysia</th>
-                                            <th class="text-center">East Malaysia</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <?php $index = 0 ?>
-                                        @foreach ($groups as $item)
-                                            <?php $index++ ?>
-                                            <tr>
-                                                <td>{{ $item->name }}</td>
-                                                <input type="hidden" name="{{ "groups[{$index}][group_id]" }}" value="{{$item->id}}"/>
-                                                <td><input type="number" name="{{ "groups[{$index}][price]" }}" placeholder="West Price" class="form-control" value="{{old("groups.$index.price")}}"/></td>
-
-                                                <td><input type="number" name="{{ "groups[{$index}][price_east]" }}" placeholder='East price' class="form-control" value="{{old("groups.$index.price_east")}}"/></td>
-                                                <td colspan="1">
-                                                    <input type="number" name="{{ "groups[{$index}][delivery]" }}"
-                                                           value="{{old("groups.$index.delivery")}}"
-                                                           placeholder='Delivery' class="form-control"/>
-                                                </td>
-                                                <td colspan="1">
-                                                    <input type="number" name="{{ "groups[{$index}][delivery_east]" }}"
-                                                           value="{{old("groups.$index.delivery_east")}}"
-                                                           placeholder='Delivery' class="form-control"/>
-                                                </td>
-                                            </tr>
+                                <label class="col-md-4 control-label">Role</label>
+                                <div class="col-md-6">
+                                    <select class="form-control" name="role_id">
+                                        @foreach($roles as $role)
+                                            <option value="{{ $role->id }}" {{ (old('role') == $role->id) ? 'selected' : null }}> {{ $role->name }} </option>
                                         @endforeach
-                                        </tbody>
-                                    </table>
+                                    </select>
                                 </div>
                             </div>
-                            @endif
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Membership product ?</label>
+                                <div class="col-md-6">
+                                    <label>
+                                        <input type="radio" name="is_membership" value="1" {{  (old('is_membership') == '1')  ? 'checked' : '' }}/>
+                                        Yes
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="is_membership" value="0" {{ (old('is_membership') != '1')  ? 'checked' : '' }}/>
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Membership group</label>
+                                <div class="col-md-6">
+                                    <select class="form-control" name="membership_group_id" {{ (old('is_membership') == '1') ? null : 'disabled' }}>
+                                        @foreach($groups as $group)
+                                            <option value="{{ $group->id }}" {{ (old('membership_group_id') == $group->id) ? 'selected' : null }}> {{ $group->name }} </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Price *</label>
+
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="price" value="{{ old('price') }}" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Price east *</label>
+
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="price_east" value="{{ old('price_east') }}" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Delivery </label>
+
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="delivery" value="{{ old('delivery') }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Delivery east</label>
+
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="delivery_east" value="{{ old('delivery_east') }}" >
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Group</label>
+                                <div class="col-md-6">
+                                    <select class="form-control" name="group_id">
+                                        <option value=''>Any</option>
+                                        @foreach($groups as $group)
+                                            <option value="{{ $group->id }}" {{ (old('group_id') == $group->id) ? 'selected' : null }}> {{ $group->name }} </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group text-left">
+                                <div class="col-md-6 col-md-offset-4">
+                                    *) Required
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">

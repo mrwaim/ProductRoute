@@ -14,45 +14,32 @@
 
             <form enctype="multipart/form-data" class="form-horizontal" role="form" method="POST"
                   action="{{ url('/products/update/' . $product->id) }}">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                {{ csrf_field() }}
 
                 <div class="form-group">
-                    <label class="col-md-3 control-label">Product Name</label>
-
+                    <label class="col-md-4 control-label">Product Name *</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" name="name" value="{{ $product->name }}">
+                        <input type="text" class="form-control" name="name" value="{{ $product->name }}" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-3 control-label">Product Description</label>
-
+                    <label class="col-md-4 control-label">Product Description *</label>
                     <div class="col-md-6">
-                        <textarea rows="10" class="form-control" name="description">{{ $product->description }}</textarea>
+                        <textarea rows="10" class="form-control" name="description" required>{{ $product->description }}</textarea>
                     </div>
                 </div>
-                @if(! $config->group_enabled)
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">Product Price</label>
-
-                        <div class="col-md-6">
-                            <input type="number" class="form-control" name="price"
-                                   value="{{ $product->productPricing->price }}">
-                        </div>
-                    </div>
-                @endif
 
                 <div class="form-group">
-                    <label for="image" class="control-label col-md-3">Product Image</label>
+                    <label for="image" class="control-label col-md-4">Product Image</label>
                     <div class="col-md-6">
                         <img width='40' height='40' src='{{asset($product->image)}}'>
                         <input type="file" class="form-control" name="image" id="image">
-                    </div> <!-- end div.col-md-6 -->
-                </div> <!-- end div.form-group -->
+                    </div>
+                </div>
 
                 <div class="form-group">
-                    <label class="col-md-3 control-label">Bonus Category</label>
-
+                    <label class="col-md-4 control-label">Bonus Category</label>
                     <div class="col-md-6">
                         <select name='bonus_categories_id'>
                             <option value=''>Any</option>
@@ -66,63 +53,59 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-3 control-label">Max Quantity</label>
-
+                    <label class="col-md-4 control-label">Max Quantity</label>
                     <div class="col-md-6">
                         <input type="text" class="form-control" name="max_quantity"
-                               value="{{ $product->max_quantity }}">
+                               value="{{ old('max_quantity', $product->max_quantity) }}">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-3 control-label">Min Quantity</label>
-
+                    <label class="col-md-4 control-label">Min Quantity</label>
                     <div class="col-md-6">
                         <input type="text" class="form-control" name="min_quantity"
-                               value="{{ $product->min_quantity }}">
+                               value="{{ old('min_quantity', $product->min_quantity) }}">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-3 control-label">Hide</label>
-
+                    <label class="col-md-4 control-label">Hide</label>
                     <div class="col-md-6">
                         <label>
                             <input type="radio" name="hidden_from_ordering" value="1"
                                     {{  (old('hidden_from_ordering', $product->hidden_from_ordering) == '1')  ? 'checked' : '' }}
-                            >
+                            />
                             Yes
                         </label>
                         <label>
                             <input type="radio" name="hidden_from_ordering" value="0"
                                     {{ (old('hidden_from_ordering', $product->hidden_from_ordering) != '1')  ? 'checked' : '' }}
-                            >
+                            />
                             No
                         </label>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-3 control-label">HQ Product</label>
-
+                    <label class="col-md-4 control-label">HQ Product</label>
                     <div class="col-md-6">
                         <label>
                             <input type="radio" name="is_hq" value="1"
                                     {{  (old('is_hq', $product->is_hq) != '0')  ? 'checked' : '' }}
-                            >
+                            />
                             Yes
                         </label>
                         <label>
                             <input type="radio" name="is_hq" value="0"
                                     {{ (old('is_hq', $product->is_hq) == '0')  ? 'checked' : '' }}
-                            >
+                            />
                             No
                         </label>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-3 control-label">For Customer</label>
+                    <label class="col-md-4 control-label">For Customer</label>
 
                     <div class="col-md-6">
                         <label>
@@ -140,8 +123,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-3 control-label">For new user</label>
-
+                    <label class="col-md-4 control-label">For new user</label>
                     <div class="col-md-6">
                         <label>
                             <input type="radio" name="new_user" value="1"
@@ -159,7 +141,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-3 control-label">Exipiry Date</label>
+                    <label class="col-md-4 control-label">Exipiry Date</label>
                     <div class="col-md-6">
                         <input type="text" name="expiry_date" data-plugin-datepicker
                                data-date-format="dd/mm/yyyy"
@@ -168,63 +150,91 @@
                     </div>
                 </div>
 
-                @if($config->group_enabled)
-                    <div class="form-group">
-                        {{--<label class="col-md-3 control-label">Target Group</label>--}}
-                        <div class="col-md-10 col-md-offset-1 column">
-                            <table class="table table-bordered table-hover" id="tab_logic">
-                                <thead>
-                                <tr>
-                                <tr>
-                                    <th class="text-center" rowspan="2">Group</th>
-                                    <th class="text-center" colspan="2">Product Price</th>
-                                    <th class="text-center" colspan="2">Delivery</th>
-                                </tr>
-                                <tr>
-                                    <th class="text-center" colspan="1">West Malaysia</th>
-                                    <th class="text-center" colspan="1">East Malaysia</th>
-                                    <th class="text-center" colspan="1">West Malaysia</th>
-                                    <th class="text-center" colspan="1">East Malaysia</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php $index = 0 ?>
-                                @foreach ($groups as $item)
-                                    <?php $index++ ?>
-                                    <tr>
-                                        <input type="hidden" name="{{ "groups[{$index}][group_id]" }}"
-                                               value="{{$item->id}}"/>
-                                        <input type="hidden"
-                                               name="{{ "groups[{$index}][product_pricing_id]" }}"
-                                               value="{{$product->pricingForGroup($item) ? $product->pricingForGroup($item)->id : 0}}"/>
-                                        <td>{{ $item->name }}</td>
-                                        <td colspan="1">
-                                            <input type="number" name="{{ "groups[{$index}][price]" }}"
-                                                   value="{{$product->pricingForGroup($item) ? $product->pricingForGroup($item)->price : ''}}"
-                                                   placeholder='Price' class="form-control"/>
-                                        </td>
-                                        <td colspan="1">
-                                            <input type="number" name="{{ "groups[{$index}][price_east]" }}"
-                                                   value="{{$product->pricingForGroup($item) ? $product->pricingForGroup($item)->price_east : ''}}"
-                                                   placeholder='Price' class="form-control"/>
-                                        </td>
-                                        <td colspan="1">
-                                        <input type="number" name="{{ "groups[{$index}][delivery]" }}"
-                                               value="{{$product->pricingForGroup($item) ? $product->pricingForGroup($item)->delivery : ''}}"
-                                               placeholder='Delivery' class="form-control"/>
-                                        </td>
-                                        <td colspan="1">
-                                            <input type="number" name="{{ "groups[{$index}][delivery_east]" }}"
-                                                   value="{{$product->pricingForGroup($item) ? $product->pricingForGroup($item)->delivery_east : ''}}"
-                                                   placeholder='Delivery' class="form-control"/>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Role</label>
+                    <div class="col-md-6">
+                        <select class="form-control" name="role_id">
+                            @foreach($roles as $role)
+                                <option value="{{ $role->id }}" {{ (old('role', $product->role_id) == $role->id) ? 'selected' : null }}> {{ $role->name }} </option>
+                            @endforeach
+                        </select>
                     </div>
-                @endif
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Membership product ?</label>
+                    <div class="col-md-6">
+                        <label>
+                            <input type="radio" name="is_membership" value="1" {{  (old('is_membership', $product->is_membership) == '1')  ? 'checked' : '' }}/>
+                            Yes
+                        </label>
+                        <label>
+                            <input type="radio" name="is_membership" value="0" {{ (old('is_membership', $product->is_membership) != '1')  ? 'checked' : '' }}/>
+                            No
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Membership group</label>
+                    <div class="col-md-6">
+                        <select class="form-control" name="membership_group_id" {{ (old('is_membership', $product->is_membership) == '1') ? null : 'disabled' }}>
+                            @foreach($groups as $group)
+                                <option value="{{ $group->id }}" {{ (old('membership_group_id', $product->membership_group_id) == $group->id) ? 'selected' : null }}> {{ $group->name }} </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Price *</label>
+
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="price" value="{{ old('price', $product->price) }}" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Price east *</label>
+
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="price_east" value="{{ old('price_east', $product->price_east) }}" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Delivery </label>
+
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="delivery" value="{{ old('delivery', $product->delivery) }}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Delivery east</label>
+
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="delivery_east" value="{{ old('delivery_east', $product->delivery_east) }}" >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Group</label>
+                    <div class="col-md-6">
+                        <select class="form-control" name="group_id">
+                            <option value=''>Any</option>
+                            @foreach($groups as $group)
+                                <option value="{{ $group->id }}" {{ (old('group_id', $product->group_id) == $group->id) ? 'selected' : null }}> {{ $group->name }} </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group text-left">
+                    <div class="col-md-6 col-md-offset-4">
+                        *) Required
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-4">
@@ -258,7 +268,7 @@
                         <div class="panel-body">
                             {{ csrf_field() }}
                             <div class="form-group">
-                                <label class="control-label col-md-3">Unit</label>
+                                <label class="control-label col-md-4">Unit</label>
                                 <div class="col-md-7">
                                     <select class="form-control" name="product_unit_id" required>
                                         <option value="">Select unit</option>
@@ -269,7 +279,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3">Quantity</label>
+                                <label class="control-label col-md-4">Quantity</label>
                                 <div class="col-md-7">
                                     <input type="number" min="1" name="quantity" value="1" class="form-control" required/>
                                 </div>
