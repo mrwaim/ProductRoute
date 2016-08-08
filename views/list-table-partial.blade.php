@@ -4,10 +4,7 @@
         <tr>
             <th>Name</th>
             <th>Description</th>
-            @if(! $config->group_enabled)
-            <th>Group</th>
             <th>Price</th>
-            @endif
             <th>Bonus Category</th>
             @if($auth->admin)
                 <th>Delete</th>
@@ -19,10 +16,7 @@
             <tr>
                 <td>@products-link($item)</td>
                 <td>@foreach(explode(PHP_EOL, $item->description) as $line ){{$line}}<br/>@endforeach</td>
-                @if(! $config->group_enabled)
-                <td>{{ $item->product->group ? $item->product->group->name : 'Any' }}</td>
-                <td>{{ $item->product->price }}</td>
-                @endif
+                <td>@if($item->price != $item->price_east)@money($item->price)/@money($item->price_east) @else @money($item->price) @endif</td>
                 <td>{{ $item->bonusCategory ? $item->bonusCategory->friendly_name : 'Any' }}</td>
                 @if($auth->admin)
                     <td>
