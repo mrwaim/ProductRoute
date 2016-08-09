@@ -66,7 +66,7 @@ class ProductManagementController extends Controller
         $data = [
             'bonusCategories' => $bonusCategories,
             'groups' => $groups,
-            'roles' => $roles
+            'roles' => $roles,
         ];
 
         return view('product-route::create-product', $data);
@@ -152,7 +152,6 @@ class ProductManagementController extends Controller
         flash()->success('Success!', 'Unit has been added');
 
         return redirect()->back();
-
     }
 
     public function deleteUnits($product, $productUnit)
@@ -170,7 +169,7 @@ class ProductManagementController extends Controller
 
         $data = [
             'unit' => $unit,
-            'product' => $product
+            'product' => $product,
         ];
 
         return view('product-route::view-unit', $data);

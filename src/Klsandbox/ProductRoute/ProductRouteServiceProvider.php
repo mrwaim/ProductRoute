@@ -27,19 +27,21 @@ class ProductRouteServiceProvider extends ServiceProvider
         $router->bind('product_pricing', function ($id) {
             $productPricing = ProductPricing::find($id);
             Site::protect($productPricing, 'Product pricing');
+
             return $productPricing;
         });
 
         $router->bind('product', function ($id) {
             $product = Product::find($id);
             Site::protect($product, 'Product');
+
             return $product;
         });
 
         $router->bind('product_unit', function ($id) {
             $productUnit = ProductUnit::find($id);
 
-            if (! $productUnit) {
+            if (!$productUnit) {
                 \App::abort(404, 'Product Unit not found');
             }
 

@@ -1,4 +1,6 @@
-<?php namespace Klsandbox\ProductRoute\Request;
+<?php
+
+namespace Klsandbox\ProductRoute\Request;
 
 use App\Http\Requests\Request;
 
@@ -18,5 +20,4 @@ class UpdateProductRequest extends Request
             'image' => 'image',
         ];
     }
-
 }

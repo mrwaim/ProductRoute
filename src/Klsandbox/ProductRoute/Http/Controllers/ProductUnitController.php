@@ -1,4 +1,6 @@
-<?php namespace Klsandbox\ProductRoute\Http\Controllers;
+<?php
+
+namespace Klsandbox\ProductRoute\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -27,19 +29,18 @@ class ProductUnitController extends Controller
         flash()->success('Success!', 'Unit has been created');
 
         return redirect('products/units');
-
     }
 
     public function view($productUnitId)
     {
         $productUnit = ProductUnit::find($productUnitId);
 
-        if (! $productUnit) {
+        if (!$productUnit) {
             \App::abort(505, 'Unit not found');
         }
 
         $data = [
-            'productUnit' => $productUnit
+            'productUnit' => $productUnit,
         ];
 
         return view('product-route::units.view', $data);
@@ -49,7 +50,7 @@ class ProductUnitController extends Controller
     {
         $productUnit = ProductUnit::find($productUnitId);
 
-        if (! $productUnit) {
+        if (!$productUnit) {
             \App::abort(505, 'Unit not found');
         }
 
@@ -64,7 +65,7 @@ class ProductUnitController extends Controller
     {
         $productUnit = ProductUnit::find($productUnitId);
 
-        if (! $productUnit) {
+        if (!$productUnit) {
             \App::abort(505, 'Unit not found');
         }
 
@@ -74,5 +75,4 @@ class ProductUnitController extends Controller
 
         return redirect()->back();
     }
-
 }
