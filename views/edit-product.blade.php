@@ -329,7 +329,7 @@
                                 <tbody>
                                 @if(! count($units))
                                     <tr>
-                                        <td colspan="5" class="text-center"> No Units</td>
+                                        <td colspan="7" class="text-center"> No Units</td>
                                     </tr>
                                 @endif
                                 @foreach($units as $unit)
