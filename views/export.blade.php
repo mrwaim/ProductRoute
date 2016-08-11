@@ -51,8 +51,8 @@
             <td>{{ $product->delivery_east }}</td>
             <td>{{ $product->mix_quantity }}</td>
             <td>{{ $product->max_quantity }}</td>
-            <td>{{ $product->description }}</td>
-            <td>{{ $product->bonusCategory ? $product->bonusCategory->name : '' }}</td>
+            <td>{!!  nl2br($product->description) !!}</td>
+            <td>{{ $product->bonusCategory ? $product->bonusCategory->friendly_name : '' }}</td>
             <td>{{ $product->new_user ? 'YES' : 'NO' }}</td>
             <td>{{ $product->for_customer ? 'YES' : 'NO' }}</td>
             <td>{{ $product->is_membership ? 'YES' : 'NO' }}</td>
