@@ -25,7 +25,7 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <a href="{{ url('products/export') }}" class="btn btn-primary"><i class="fa fa-excel">Export Products to CSV</i></a>
+                    <a href="{{ url('products/export') }}" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> Export Products to Excel</a>
                 </div>
             </div>
         </div>
