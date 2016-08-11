@@ -41,7 +41,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Bonus Category</label>
                                 <div class="col-md-6">
-                                    <select name='bonus_categories_id' class="form-control">
+                                    <select name='bonus_category_id' class="form-control">
                                         <option value=''>Any</option>
                                         @foreach ($site_data->get('bonus_categories') as $item)
                                             <option value='{{$item->id}}'>{{ $item->friendly_name }}</option>

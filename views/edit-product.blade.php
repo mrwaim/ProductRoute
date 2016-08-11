@@ -41,7 +41,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label">Bonus Category</label>
                     <div class="col-md-6">
-                        <select name='bonus_categories_id'>
+                        <select name='bonus_category_id'>
                             <option value=''>Any</option>
                             @foreach ($bonusCategories as $item)
                                 <option value='{{$item->id}}' {{ ($product->bonus_category_id == $item->id) ? 'selected' : '' }}>
