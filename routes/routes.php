@@ -28,6 +28,7 @@ Route::group(['middleware' => ['role:admin']], function () {
         Route::get('list', 'ProductManagementController@getList');
         Route::get('all', 'ProductManagementController@getListAll');
         Route::post('update/{product}', 'ProductManagementController@postUpdate');
+        Route::get('export', 'ProductManagementController@export');
 
         /**
          * Product Units
