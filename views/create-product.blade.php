@@ -67,6 +67,14 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-md-4 control-label">Max purchase count</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="max_purchase_count"
+                                           value="{{ old('max_purchase_count') }}" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-md-4 control-label">Hide</label>
                                 <div class="col-md-6">
                                     <label>
