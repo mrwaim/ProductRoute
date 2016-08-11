@@ -18,6 +18,7 @@ class CreateProductRequest extends Request
             'description' => 'required',
             'price' => 'required|numeric',
             'image' => 'required|image',
+            'max_purchase_count' => 'numeric',
         ];
     }
 }
