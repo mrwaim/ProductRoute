@@ -4,6 +4,7 @@ namespace Klsandbox\ProductRoute\Http\Controllers;
 
 use App\Models\BonusCategory;
 use App\Models\Group;
+use Excel;
 use Illuminate\Http\Request;
 use Klsandbox\OrderModel\Models\Product;
 use Auth;
@@ -188,5 +189,23 @@ class ProductManagementController extends Controller
         flash()->success('Success!', 'Unit has been updated');
 
         return redirect()->back();
+    }
+
+    public function export()
+    {
+        return Excel::create('Product list', function($excel) {
+
+            $excel->sheet('Products', function($sheet) {
+                $products = Product::all();
+
+                $data = [
+                    'products' => $products
+                ];
+
+                $sheet->loadView('product-route::export', $data);
+
+            });
+
+        })->export('xls');
     }
 }
