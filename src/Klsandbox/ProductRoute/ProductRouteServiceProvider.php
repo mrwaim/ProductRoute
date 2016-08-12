@@ -6,7 +6,6 @@ use App\Services\Site;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 use Klsandbox\OrderModel\Models\Product;
-use Klsandbox\OrderModel\Models\ProductPricing;
 use Klsandbox\OrderModel\Models\ProductUnit;
 
 class ProductRouteServiceProvider extends ServiceProvider
@@ -23,13 +22,6 @@ class ProductRouteServiceProvider extends ServiceProvider
         if (!$this->app->routesAreCached()) {
             require __DIR__ . '/../../../routes/routes.php';
         }
-
-        $router->bind('product_pricing', function ($id) {
-            $productPricing = ProductPricing::find($id);
-            Site::protect($productPricing, 'Product pricing');
-
-            return $productPricing;
-        });
 
         $router->bind('product', function ($id) {
             $product = Product::find($id);
