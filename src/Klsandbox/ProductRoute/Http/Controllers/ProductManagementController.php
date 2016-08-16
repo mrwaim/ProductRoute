@@ -46,6 +46,10 @@ class ProductManagementController extends Controller
         return view('product-route::edit-product', $data);
     }
 
+    public function getView(Product $product){
+        return view('product-route::view-product')->with('product', $product);
+    }
+
     public function getList()
     {
         return view('product-route::list')
