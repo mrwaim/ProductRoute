@@ -2,12 +2,12 @@
     <table class="{{isset($table_class) ? $table_class : 'table table-bordered table-striped table-condensed mb-none'}}" id="table-list-product">
         <thead>
         <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Bonus Category</th>
+            <th class="text-center">Name</th>
+            <th class="text-center">Description</th>
+            <th class="text-center">Price</th>
+            <th class="text-center">Bonus Category</th>
             @if($auth->admin)
-                <th>Delete</th>
+                <th width="15%" class="text-center">Action</th>
             @endif
         </tr>
         </thead>
@@ -19,8 +19,9 @@
                 <td>@if($item->price != $item->price_east)@money($item->price)/@money($item->price_east) @else @money($item->price) @endif</td>
                 <td>{{ $item->bonusCategory ? $item->bonusCategory->friendly_name : 'Any' }}</td>
                 @if($auth->admin)
-                    <td>
-                        <a href="/products/delete/{{ $item->id }}" class="panel-action panel-action-dismiss"></a>
+                    <td class="text-center">
+                        <a href="/products/edit/{{ $item->id }}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
+                        <a href="/products/delete/{{ $item->id }}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                     </td>
                 @endif
             </tr>
