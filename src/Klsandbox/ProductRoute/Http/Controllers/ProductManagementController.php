@@ -97,6 +97,15 @@ class ProductManagementController extends Controller
         $inputs = array_except($inputs, ['_token']);
 
         $inputs['is_available'] = true;
+
+        if (!$inputs['bonus_category_id']) {
+            $inputs['bonus_category_id'] = null;
+        }
+
+        if (!$inputs['group_id']) {
+            $inputs['group_id'] = null;
+        }
+
         $this->model->create($inputs);
 
         Session::flash('success_message', 'Product has been created.');
@@ -112,6 +121,14 @@ class ProductManagementController extends Controller
     public function postUpdate(UpdateProductRequest $request, Product $product)
     {
         $inputs = $request->all();
+
+        if (!$inputs['bonus_category_id']) {
+            $inputs['bonus_category_id'] = null;
+        }
+
+        if (!$inputs['group_id']) {
+            $inputs['group_id'] = null;
+        }
 
         if (Input::hasFile('image')) {
             $file = Input::file('image');
@@ -197,9 +214,9 @@ class ProductManagementController extends Controller
 
     public function export()
     {
-        return Excel::create('Product list', function($excel) {
+        return Excel::create('Product list', function ($excel) {
 
-            $excel->sheet('Products', function($sheet) {
+            $excel->sheet('Products', function ($sheet) {
                 $products = Product::all();
 
                 $data = [
