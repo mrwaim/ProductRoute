@@ -137,6 +137,7 @@
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-4">
                         <a class="btn btn-primary" href="{{ url('products/edit/'. $product->id) }}">Edit</a>
+                        <a class="btn btn-primary" href="{{ url('order-management/products-sold?product_id='. $product->id) }}">View orders with this product</a>
                     </div>
                 </div>
             </form>
